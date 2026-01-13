@@ -59,3 +59,63 @@ class RAGSystem:
             max_tokens=self.config.max_tokens
         )
         print("✅ 系统初始化完成！")
+
+    def build_knowledge_base(self):
+        """构建知识库"""
+        print("🚀 开始构建知识库...")
+
+        # 1 尝试加载已保存的索引
+        vectorstore = self.index_module.load_index()
+        
+        if vectorstore is not None:
+            print("✅ 已加载已保存的索引！")
+            print("加载食谱文档")
+
+
+        else:
+            print("⚠️ 未找到已保存的索引，将构建新索引...")
+
+            self.data_module.load_documents()
+
+        print("✅ 知识库构建完成！")
+
+
+    def run_interactivate(self):
+        """ 运行交互式问答循环 """
+        print("🚀 开始运行交互式问答循环...")
+        self.initialize_system()
+
+
+        #构建知识库
+        slef.build_knowledge_base()
+
+
+
+
+        while True:
+            query = input("\n请输入您的问题（输入'退出'结束）: ")
+            if query.lower() == '退出':
+                print("✅ 会话结束！")
+                break
+
+            # 处理查询
+            response = self.handle_query(query)
+            print(f"🤖 回答: {response}")
+
+
+
+
+
+def main():
+
+    rag_system = RAGSystem()
+    
+    
+
+    rag_system.run_interactive()
+
+
+
+
+if __name__ == "__main__":
+    main()
